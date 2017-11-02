@@ -1,0 +1,6 @@
+package: github.com/NoahOrberg/renata.nvim
+import:
+- package: github.com/neovim/go-client
+  subpackages:
+  - nvim
+  - nvim/plugin
