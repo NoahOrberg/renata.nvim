@@ -9,5 +9,5 @@ endfunction
 
 call remote#host#Register('renata.nvim', '0', function('s:RequireRenata'))
 call remote#host#RegisterPlugin('renata.nvim', '0', [
-  \ {'type': 'command', 'name': 'Http', 'sync': 1, 'opts': {'nargs': '?'}},
+  \ {'type': 'command', 'name': 'Http', 'sync': 1, 'opts': {'nargs': '*'}},
   \ ])

@@ -8,7 +8,7 @@ import (
 func main() {
 	g := &command.Renata{}
 	plugin.Main(func(p *plugin.Plugin) error {
-		p.HandleCommand(&plugin.CommandOptions{Name: "Http", NArgs: "?"}, g.RenataHttp)
+		p.HandleCommand(&plugin.CommandOptions{Name: "Http", NArgs: "*"}, g.RenataHttp)
 		return nil
 	})
 }
