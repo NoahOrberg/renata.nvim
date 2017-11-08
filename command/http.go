@@ -3,6 +3,7 @@ package command
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -24,7 +25,7 @@ func (r *Renata) RenataHttp(v *nvim.Nvim, args []string) error {
 
 	switch method {
 	case "GET":
-		getRequest(url, map[string]string{})
+		getRequest(v, url, map[string]string{})
 	}
 	return nil
 }
@@ -50,16 +51,49 @@ func loadJSONfromBuffer(v *nvim.Nvim) (string, error) {
 	return string(line), nil
 }
 
-func getRequest(url string, header map[string]string) error {
+func getRequest(v *nvim.Nvim, url string, header map[string]string) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
 	}
 
-	writeResponse(resp)
+	writeResponse(v, resp)
 	return nil
 }
 
-func writeResponse(resp *http.Response) error {
-	return util.Echom(fmt.Sprintf("%v", resp.Status))
+func writeResponse(v *nvim.Nvim, resp *http.Response) error {
+	if err := util.NewBuffer(v); err != nil {
+		return nil
+	}
+
+	buf, err := v.CurrentBuffer()
+	if err != nil {
+		return nil
+	}
+
+	bo, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil
+	}
+
+	body := make([][]byte, 0)
+	tmp := make([]byte, 0)
+	for _, b := range bo {
+		if string([]byte{b}) == "\n" {
+			body = append(body, tmp)
+			tmp = []byte{}
+		} else {
+			tmp = append(tmp, b)
+		}
+	}
+
+	if err := v.SetBufferLines(buf, 0, -1, true, body); err != nil {
+		return err
+	}
+
+	if err := v.SetBufferName(buf, "renata://response.body"); err != nil {
+		return err
+	}
+
+	return nil
 }
