@@ -1,5 +1,5 @@
-hash: 5029207ca6259e92742f76f890892006ac7b9977aa6372e4269ec4770395dc24
-updated: 2017-11-02T11:40:40.213193605+09:00
+hash: cb4fc8085359cccbf5b373c017442424b391e715d33dff26c22e742b1b0b93cc
+updated: 2017-11-02T13:19:34.051529899+09:00
 imports:
 - name: github.com/neovim/go-client
   version: 41046447d68e201c1988a66b665ab8a41536c028
@@ -8,4 +8,8 @@ imports:
   - msgpack/rpc
   - nvim
   - nvim/plugin
+- name: github.com/NoahOrberg/nvim-go-util
+  version: fc4229fe80aa2231e8f5e66187f1cae4ce7a54b0
+  subpackages:
+  - util
 testImports: []
